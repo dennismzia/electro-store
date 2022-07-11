@@ -8,8 +8,7 @@
         //set admin id
         $admin_id = $_GET['admin_id'];
         //set sql query to select admin name to check if he/she is currently logged in
-        $sql = "SELECT * FROM `tbl_admins` WHERE `admin_id`='$admin_id'";
-
+        $sql = "SELECT * FROM `tbl_admin` WHERE `admin_id`='$admin_id'";
         //execute the query
         $res = mysqli_query($conn, $sql);
 
@@ -25,7 +24,14 @@
             die();
         }
         //set admin logged in id
-        $admin_logged_in_id = $row['admin_id'];
+        //SQL to set current admin logged in
+        $current_admin_loggedin_sql = "SELECT * FROM `tbl_admin` WHERE 1";
+        //execute the query
+        $res3 = mysqli_query($conn, $current_admin_loggedin_sql);
+        //set the data of admin from database on array
+        $rows3 = mysqli_fetch_assoc($res3);
+        //set the admin id on the variable
+        $admin_logged_in_id = $rows3['admin_id'];
         //admin id match
         function admin_id_match($admin_id, $admin_logged_in_id){
             if($admin_id == $admin_logged_in_id){

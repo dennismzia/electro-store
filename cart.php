@@ -125,7 +125,9 @@
                             echo "<h5 class='text-right'>Ksh.$total_amount</h5>";
                         ?>
                         <h3>Total Amount: </h3>
-                        <button class="btn primary">CHECKOUT</button>
+                        <form action="checkout.php">
+                            <button type="submit" class="btn primary">CHECKOUT</button>
+                        </form>
                     </div>
                 </div>
             </div>
