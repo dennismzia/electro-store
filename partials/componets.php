@@ -23,7 +23,7 @@
             //check if product is available on the cart with id
             if(in_array($_POST['product_id'], $product_array_id)){
                 echo "<script>alert('Already the product is in the cart!')</script>";
-                echo "<script>window.location='index.php'</script>";
+                echo "<script>window.location='products.php'</script>";
             }
             else{
                 $count = count($_SESSION['cart']);

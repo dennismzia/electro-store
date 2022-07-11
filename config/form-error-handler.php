@@ -258,7 +258,7 @@
             //set error session variable
             $_SESSION['error'] = "<div class='error text-center'>Email or phonenumber don't exist!</div>";
             //redirect the the customer to login page
-            echo "<script>window.location='login.php?error=useremailphonenumberdontexist#login'</script>";
+            echo "<script>window.location='login.php?error=useremailphonenumberexist#login'</script>";
             exit();
         }
 
