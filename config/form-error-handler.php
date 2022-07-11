@@ -8,7 +8,7 @@
             $result = true;
         }
         else{
-            $result = false;
+           $result = false;
         }
         return $result;
     }
@@ -35,10 +35,10 @@
     //handle when password don't match
     function password_match($password, $confirm_password){
         if($password !== $confirm_password){
-            $result = true;
+            $result = false;
         }
         else{
-            $result = false;
+            $result = true;
         }
         return $result;
     }
@@ -116,8 +116,8 @@
         return $result;
     }
     //handle old password match
-    function old_password_match($password, $new_password){
-        if($password !== $new_password){
+    function old_password_match($password, $hashed_current_password){
+        if($password !== $hashed_current_password){
             $result = true;
         }
         else{

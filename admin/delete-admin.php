@@ -42,10 +42,10 @@
             }
             return $result;
         }
+        
         //check if admin is login
-        if(admin_id_match($admin_id, $admin_logged_in_id) == true){
+        if(admin_id_match($admin_id, $admin_logged_in_id) !== false){
             //delete admin then redirect to login page
-
             //1.delete admin
             //SQL query to delete the admin record on the database
             $sql2 = "DELETE FROM `tbl_admin` WHERE `admin_id`='$admin_id'";
@@ -56,12 +56,10 @@
             //check if the query is executed
             //2.redirect admin to login page or manage admin page
             if($res2 == true){
-                //set a session variable variable delete admin and redirect admin
-                //set delete admin session variable
-                $_SESSION['delete-admin'] = "<div class='success'>You deleted yourself. Bye!</div>";
                 //unset session and destroy session
                 session_unset();
                 session_destroy();
+                
                 //redirect admin to login page
                 header('location:'.SITEURL.'admin/login.php');
             }
@@ -70,6 +68,7 @@
                 $_SESSION['delete-admin'] = "<div class='error'>Failed to delete yourself. Try again later!</div>";
                 //redirect admin to manage admin page
                 header('location:'.SITEURL.'admin/manage-admins.php');
+                die();
             }
         }
         else{
@@ -94,6 +93,7 @@
                 $_SESSION['delete-admin'] = "<div class='error'>Failed to delete admin. Try again later!</div>";
                 //redirect admin to manage admin page
                 header('location:'.SITEURL.'admin/manage-admins.php');
+                die();
             }
         }
     }

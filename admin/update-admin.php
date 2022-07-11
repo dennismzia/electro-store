@@ -132,21 +132,31 @@
                             $username = mysqli_real_escape_string($conn, $_POST['username']);
                             $email = mysqli_real_escape_string($conn, $_POST['email']);
                             $phone_number = mysqli_real_escape_string($conn, $_POST['phone_number']);
+                            $current_password = mysqli_real_escape_string($conn, $_POST['current_password']);
                             $new_password = mysqli_real_escape_string($conn, $_POST['new_password']);
-
+                            $confirm_new_password = mysqli_real_escape_string($conn, $_POST['confirm_new_password']);
                             
                             //include form error handle to sanitize form data inputs
                             include('../config/form-error-handler.php');
                             //check if all the form input are filled in
-                            if(empty_input_update($admin_name, $username, $email, $phone_number, $password, $new_password, $confirm_new_password) !== false){
+                            if(empty_input_update($admin_name, $username, $email, $phone_number, $current_password, $new_password, $confirm_new_password) !== false){
                                 $_SESSION['update-admin'] = "<div class='error text-center'>Fill in the inputs!</div>";
                                 header('location:'.SITEURL.'admin/update-admin.php?admin_id='.$admin_id);
                                 ob_end_flush();
                                 exit();
                             }
 
+                            //hash the current password to secure it in the database
+                            $hashed_current_password = password_hash($current_password, PASSWORD_DEFAULT);
+
                             //check if old password mathch new password
-                            if(old_password_match($password, $new_password) !== false){
+                            if(old_password_match($password, $hashed_current_password) !== false){
+                                echo $password;
+                                ?>
+                                <br>
+                                <?php
+                                echo $hashed_current_password;
+                                die();
                                 $_SESSION['update-admin'] = "<div class='error text-center'>Incorrect old password!</div>";
                                 header('location:'.SITEURL.'admin/update-admin.php?admin_id='.$admin_id);
                                 ob_end_flush();
@@ -168,7 +178,7 @@
                                 exit();
                             }
                             //check if password match
-                            if(password_match($password, $confirm_password) !== false){
+                            if(password_match($new_password, $confirm_new_password) !== false){
                                 $_SESSION['update-admin'] = "<div class='error text-center'>Password don't match!</div>";
                                 header('location:'.SITEURL.'admin/update-admin.php?admin_id='.$admin_id);
                                 ob_end_flush();
