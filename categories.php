@@ -1,8 +1,8 @@
 <?php
     //include constants file to use constant variables like SITEURL
     include('config/constants.php');
-    //include file category card to use card componets for categories
-    include('partials/category-card.php');
+    //include componets file to use card componets for categories
+    include('partials/componets.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,7 +59,7 @@
                     $count = mysqli_num_rows($res);
 
                     //check if the categories table has records
-                    if($count > 1){
+                    if($count > 0){
                         //there is data loop and print data on the page
                         while($rows = mysqli_fetch_assoc($res)){
                             $category_id = $rows['category_id'];

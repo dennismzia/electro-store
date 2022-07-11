@@ -1,8 +1,8 @@
 <?php
     //include constants file to use constant variables like SITEURL
     include('config/constants.php');
-    //include product card file to access product card function
-    include('partials/product-card.php');
+    //include componets file to access product card function
+    include('partials/componets.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,7 +81,7 @@
                     $count = mysqli_num_rows($res2);
 
                     //check if the categories table has records
-                    if($count > 1){
+                    if($count > 0){
                         //there is data loop and print data on the page
                         while($rows2 = mysqli_fetch_assoc($res2)){
                             $product_id = $rows2['product_id'];

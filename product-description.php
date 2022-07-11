@@ -1,10 +1,8 @@
 <?php
     //include constants file to use constant variables like SITEURL
     include('config/constants.php');
-    //inlude product card file to use it on similar products section
-    include('partials/product-card.php');
-    //inlude product description card file to display product description
-    include('partials/product-description-card.php');
+    //inlude componets file to use it on similar products section and display product description
+    include('partials/componets.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">

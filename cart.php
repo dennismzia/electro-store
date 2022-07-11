@@ -2,8 +2,8 @@
     //include constants file to use constant variables like SITEURL
     include('config/constants.php');
 
-    //include file cart product to use card componets for products in the cart to display
-    include('partials/cart-product.php');
+    //include componets file to use card componets for products in the cart to display
+    include('partials/componets.php');
 
     //include login check file to check if customer is login
     include('login-check.php');
@@ -56,42 +56,74 @@
             <div class="cart">
                 <div class="cart-row">
                     <?php
-                        //set product id
-                        $product_id = array_column($_SESSION['cart'], 'product_id');
-                        
-                        //SQL query to select product data
-                        $sql = "SELECT * FROM `tbl_productS` WHERE `active`='Yes' AND `featured`='Yes'";
+                        $total = 0;
+                        if(isset($_SESSION['cart'])){
+                            //set product id
+                            $product_id = array_column($_SESSION['cart'], 'product_id');
+                            
+                            //SQL query to select product data
+                            $sql = "SELECT * FROM `tbl_productS` WHERE `active`='Yes' AND `featured`='Yes'";
 
-                        //execute the query
-                        $res = mysqli_query($conn, $sql);
+                            //execute the query
+                            $res = mysqli_query($conn, $sql);
 
-                        //display products on the cart
-                        while($rows = mysqli_fetch_assoc($res)){
-                            $product_name = $rows['product_name'];
-                            $image_name = $rows['image_name'];
-                            $product_price = $rows['price'];
-                            $active = $rows['active'];
-                            $featured = $rows['featured'];
-                            //check if the product is active
-                            if($active == "Yes" && $featured == "Yes"){
+                            //display products on the cart
+                            while($rows = mysqli_fetch_assoc($res)){
+                                $product_name = $rows['product_name'];
+                                $image_name = $rows['image_name'];
+                                $product_price = $rows['price'];
+                                $active = $rows['active'];
+                                $featured = $rows['featured'];
+                                
                                 foreach($product_id as $id){
                                     if($rows['product_id'] == $id){
                                         cartProduct($image_name, $product_name, $product_price);
+                                        $total = $total + (int)$rows['price'];
                                     }
-                                }
-                            }else{
-                                unset($rows['product_id']);
+                                }  
                             }
+                        }
+                        else{
+                            echo "<div class='error text-center'>Cart is empty!</div>";
                         }                 
                     ?>
                 </div>
                 <div class="checkout">
-                    <p class="text-center">Items ()</p>
+                    <h5 class="text-center">Price details</h5>
                     <hr>
+                    <?php
+                        if(isset($_SESSION['cart'])){
+                            $count = count($_SESSION['cart']);
+                            echo "<p class='text-center'>Items ($count)</p>";
+                        }
+                        else{
+                            echo "<p class='text-center'>Items (0)</p>";
+                        }
+                    ?>
                     <div class="checkout-prices">
-                        <h5>Price: </h5>
+                        <h5 class="text-right">Ksh.<?php echo $total; ?></h5>
+                        <h5>Price:</h5>
+                        <?php
+                            $vat = $total * 0.2;
+                            echo "<h5 class='text-right error'>Ksh.$vat</h5>";
+                        ?>
                         <h4>V.A.T: </h4>
+                        <?php
+                            
+                            //check if total is over Ksh.500000 for free delivery
+                            if($total >= 500000){
+                                echo "<h5 class='text-right success'>FREE</h5>";
+                            }
+                            else{
+                                $delivery_fee = 0.05 * $total;
+                                echo "<h5 class='text-right error'>Ksh.$delivery_fee</h5>";
+                            }
+                        ?>
                         <h5>Delivery fee: </h5>
+                        <?php
+                            $total_amount = $total + $vat;
+                            echo "<h5 class='text-right'>Ksh.$total_amount</h5>";
+                        ?>
                         <h3>Total Amount: </h3>
                         <button class="btn primary">CHECKOUT</button>
                     </div>

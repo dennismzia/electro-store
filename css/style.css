@@ -34,6 +34,10 @@
 .text-center {
     text-align: center;
 }
+.text-right {
+    float: right;
+    clear: both;
+}
 .img-responsive {
     width: 100%;
 }
