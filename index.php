@@ -214,6 +214,72 @@
     <!--footer-section starts here section-->
     <?php include('partials/footer.php'); ?>
     <!--footer-section ends here section-->
+    <script>
+        // Get references to the input field and suggestion box
+        const searchInput = document.getElementById("search-input");
+        const suggestionBox = document.getElementById("suggestion-box");
+
+        // Add event listener to input field to listen for keyup event
+        searchInput.addEventListener("keyup", function() {
+        // Get the input value and remove any whitespace
+        console.log(searchInput.value);
+        const inputValue = this.value.trim();
+
+        // Check if the input value is not empty
+        if (inputValue !== "") {
+            // Send an AJAX request to the PHP script to fetch suggestions
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "autosuggest.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.onload = function() {
+            if (this.status === 200) {
+                try {
+                    // Parse the response from the PHP script
+                    const suggestions = JSON.parse(xhr.response);
+
+                    // Check if there are any suggestions
+                    if (suggestions.length > 0) {
+                    // Clear the suggestion box
+                    suggestionBox.innerHTML = "";
+
+                    // Create a list of suggestions and add them to the suggestion box
+                    const suggestionList = document.createElement("ul");
+                    suggestionList.classList.add("suggestion-list");
+                    suggestions.forEach(function(suggestion) {
+                        const suggestionItem = document.createElement("li");
+                        suggestionItem.classList.add("suggestion-item");
+                        suggestionItem.textContent = suggestion;
+                        console.log(suggestionItem)
+                        suggestionList.appendChild(suggestionItem);
+                    });
+                    suggestionBox.appendChild(suggestionList);
+                    } else {
+                    // If there are no suggestions, clear the suggestion box
+                    suggestionBox.innerHTML = "";
+                    }
+                }catch (e) { console.log("Failed to pasrse JSON: " + e);}
+            }
+            };
+            xhr.send("query=" + inputValue);
+        } else {
+            // If the input value is empty, clear the suggestion box
+            suggestionBox.innerHTML = "";
+        }
+        
+        });
+
+        // Add event listener to suggestion box to listen for click event on suggestions
+        suggestionBox.addEventListener("click", function(e) {
+        // Check if the clicked element is a suggestion item
+        if (e.target.classList.contains("suggestion-item")) {
+            // Set the input value to the clicked suggestion
+            searchInput.value = e.target.textContent;
+
+            // Clear the suggestion box
+            suggestionBox.innerHTML = "";
+        }
+        });
+    </script>
 </body>
 <!-- Links for free icons from icons8 -->
 <?php include('partials/freeiconslinks.php'); ?>

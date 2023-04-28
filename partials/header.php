@@ -29,8 +29,9 @@
                 <div class="search-input">
                     <form action="search-products.php" method="GET" class="search-form">
                         <div class="form-controller">
-                            <input type="search" name="product_searched" class="input-text" placeholder="Search for electronics here...">
+                            <input type="search" id="search-input" name="product_searched" class="input-text" placeholder="Search for electronics here...">
                             <i class="fa fa-search"></i>  
+                            <div id="suggestion-box" class="auto-suggestion"></div>
                         </div>
                         <button type="submit" name="search" class="btn search-btn">SEARCH</button>
                     </form>

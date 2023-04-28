@@ -82,8 +82,6 @@
                                 //setting image name
                                 $image_name = $_FILES['image_name']['name'];
 
-                                //check if the image is selected
-
                                 //auto rename the image name
                                 //first we get the image extension 
                                 $ext = end(explode('.', $image_name));
@@ -102,7 +100,6 @@
                                 if($upload_image==false){
                                     //set an error message
                                     $_SESSION['upload'] = "<div class='error'>Image failed to be Uploaded</div>";
-                
                                     //redirect to add category page and die the process to set data to the database
                                     echo "<script>window.location='manage-categories.php'</script>";
                                     //terminate the process

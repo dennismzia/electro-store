@@ -8,7 +8,7 @@
         //set admin id
         $admin_id = $_GET['admin_id'];
         //set sql query to select admin name to check if he/she is currently logged in
-        $sql = "SELECT * FROM `tbl_admin` WHERE `admin_id`='$admin_id'";
+        $sql = "SELECT * FROM `tbl_admin` WHERE `admin_id`=$admin_id";
         //execute the query
         $res = mysqli_query($conn, $sql);
 
