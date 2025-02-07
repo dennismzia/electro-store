@@ -12,6 +12,6 @@
     define('DB_NAME', 'db_electro-store');
 
     //Server connection
-    // changed HOST to DB_SERVER below
+    // changed HOST to DB_SERVER below works well with docker
     $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME) or die("Connection failed".mysqli_connect_error());  
 ?>
